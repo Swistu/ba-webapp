@@ -6,4 +6,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.content a{
+  color: #ffffff;
+  font-size: 3em;
+  font-weight: 700;
+  transition: color .2s;
+}
+.content a:hover{
+  color: #cccccc;
 }

@@ -2,7 +2,7 @@ import { NextComponentType } from "next";
 import React from "react";
 
 type ModalProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 import style from './modal.module.css'
@@ -10,7 +10,7 @@ const Modal = ({ children }: ModalProps) => {
 
   return (
     <div className={style.modal}>
-      {children}
+      {children ? children : null}
     </div>
   )
 }
