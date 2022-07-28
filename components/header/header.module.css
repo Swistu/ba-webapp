@@ -1,0 +1,26 @@
+.header{
+  width: 100%;
+  height: 80px;
+  box-sizing: border-box;
+}
+.header nav{
+  height: 100%;
+  background-color: #1a1a1a;
+}
+.header ul{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  list-style: none;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.header ul li {
+  padding: 1rem 2rem;
+} 
+.header ul li a{
+  font-size: 1.3em;
+  color: #ffffff
+}
