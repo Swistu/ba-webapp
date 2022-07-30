@@ -6,7 +6,7 @@ import Link from 'next/link'
 const Home: NextPage = () => {
   return (
     <div style={{
-      backgroundImage: `url('https://cdn.cloudflare.steamstatic.com/steam/apps/505460/ss_1c1d60f0dd0c75837caca2aff1babf66401e7984.1920x1080.jpg?t=1656858811')`,
+      backgroundImage: `url('https://cdn.akamai.steamstatic.com/steam/apps/505460/ss_59358512ce9daf7c68e74c3d809514c7e9b55633.1920x1080.jpg?t=1656858811')`,
       width: '100%',
       height: 'calc(100vh - 80px)',
       position: 'relative'
@@ -20,7 +20,5 @@ const Home: NextPage = () => {
     </div>
   )
 }
-
-
 
 export default Home
