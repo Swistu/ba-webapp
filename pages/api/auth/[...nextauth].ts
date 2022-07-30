@@ -2,7 +2,6 @@ import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import NextAuth, { Session, User } from "next-auth"
 import DiscordProvider from 'next-auth/providers/discord'
 import { getToken } from "next-auth/jwt"
-// import clientPromise from '../../../lib/mongodb'
 import { MongoClient } from "mongodb"
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
@@ -43,7 +42,7 @@ export default NextAuth({
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token } : any) {
       return { 
         rank: token.user.rank,
         corps: token.user.corps,
