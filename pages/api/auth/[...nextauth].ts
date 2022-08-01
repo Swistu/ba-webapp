@@ -27,16 +27,15 @@ export default NextAuth({
         let userInDatabase = false;
         let userInGuild = false;
 
-        const respone = await checkUserInDatabase(user.id);
+        const response = await checkUserInDatabase(user.id);
         userInGuild = await checkUserInGuild(account.access_token as string, process.env.GUILD_ID as string);
-        userInDatabase = respone.inDatabase;
+        userInDatabase = response.inDatabase;
 
         if (userInDatabase && userInGuild)
           token.userRole = "guildMember";
 
         return {
-          accesToken: account.access_token,
-          user: { ...user, ...respone.userData },
+          user: { ...user, ...response.userData },
           ...token,
         }
       }
@@ -68,7 +67,7 @@ const checkUserInDatabase = async (userID: string) => {
       "userID": userID
     }
     const options = {
-      projection: { _id: 0, userID: 1, rank: 1, corps: 1 },
+      projection: { _id: 0 },
     };
 
     const userData = await db.collection('users').findOne(query, options);
@@ -80,8 +79,8 @@ const checkUserInDatabase = async (userID: string) => {
       };
 
     newData = {
-      rank: userData.rank,
-      corps: userData.corps
+      rank: userData.rankData.rank,
+      corps: userData.rankData.corps
     };
     inDatabase = true;
 

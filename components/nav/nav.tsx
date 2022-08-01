@@ -1,23 +1,36 @@
-import { signIn, signOut, useSession } from "next-auth/react"
-import NavItem from "../navItem/navItem"
+import Link from 'next/link';
+import { ReactNode, useState } from 'react';
 
-const Nav = () => {
-  const { data: session } = useSession();
+type Props = {
+  children: ReactNode;
+  mainNav?: boolean;
+};
+
+const Nav: React.FC<Props> = ({ children, mainNav = false }) => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
 
   return (
-    <nav>
-      <ul>
-        <NavItem href="/">Strona główna</NavItem>
-        <NavItem href="/panel">Panel</NavItem>
-        {
-          session ?
-            <NavItem href="/api/auth/signout" onClick={() => signOut()}>Wyloguj się</NavItem>
-            :
-            <NavItem href="/api/auth/signin" onClick={() => signIn()}>Zaloguj się</NavItem>
-        }
-      </ul>
-    </nav>
-  )
-}
+    <nav className="container">
+      {mainNav ? (
+        <>
+          <div className="brand">
+            <Link href="/">Błękitna Armia</Link>
+          </div>
+          <div className="hamburger" onClick={toggleMenu}>
+            <div className="line"></div>
+            <div className="line"></div>
+            <div className="line"></div>
+          </div>
+        </>
+      ) : null}
 
-export default Nav
+      <ul className={'nav-menu ' + (showMenu ? 'open' : '')}>{children}</ul>
+    </nav>
+  );
+};
+
+export default Nav;

@@ -1,19 +1,22 @@
-import type { NextPage } from 'next'
-import { getSession, useSession } from 'next-auth/react'
-import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { ReactNode, useEffect } from 'react';
+import PanelLayout from '../../components/panelLayout/panelLayout';
 
-const Panel: NextPage = () => {
+const Panel = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
-    console.log("session", session);
-  }, [session])
+    console.log('session', session);
+  }, [session]);
 
   return (
-    <h1>
+    <span>
       Witaj w panelu {session ? session.rank + ' ' + session.user?.name : null}
-    </h1 >
-  )
-}
-
+    </span>
+  );
+};
 export default Panel;
+
+Panel.getLayout = function getLayout(page: ReactNode) {
+  return <PanelLayout>{page}</PanelLayout>;
+};

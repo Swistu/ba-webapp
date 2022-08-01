@@ -1,18 +1,12 @@
-import { NextComponentType } from "next";
-import React from "react";
+import React from 'react';
+import style from './modal.module.css';
 
 type ModalProps = {
   children?: React.ReactNode;
 };
 
-import style from './modal.module.css'
-const Modal = ({ children }: ModalProps) => {
-
-  return (
-    <div className={style.modal}>
-      {children ? children : null}
-    </div>
-  )
-}
+const Modal: React.FC<ModalProps> = ({ children }) => {
+  return <div className={style.modal}>{children ? children : null}</div>;
+};
 
 export default Modal;

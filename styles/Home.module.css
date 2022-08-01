@@ -2,7 +2,7 @@
   padding: 0 2rem;
 }
 
-.content{
+.content {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,14 +11,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
+  text-align: center;
 }
 
-.content a{
-  color: #ffffff;
+.content a {
+  color: var(--text-light);
   font-size: 3em;
   font-weight: 700;
-  transition: color .2s;
+  transition: color 0.2s;
 }
-.content a:hover{
+.content a:hover {
   color: #cccccc;
 }
