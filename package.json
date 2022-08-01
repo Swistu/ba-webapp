@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@next-auth/mongodb-adapter": "^1.0.4",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "eslint-config-prettier": "^8.5.0",
     "mongodb": "^4.8.1",
     "next": "12.2.0",
     "next-auth": "^4.10.2",
+    "prettier": "^2.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
