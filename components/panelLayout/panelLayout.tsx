@@ -10,7 +10,7 @@ type Props = {
 const PanelLayout: React.FC<Props> = ({ children }) => {
   return (
     <>
-      <Header />
+      <Header panel={true} />
       <div className="panel_container">
         <Sidebar />
         <main className="panel_content">{children}</main>

@@ -1,10 +1,9 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Nav from '../nav/nav';
 import NavItem from '../navItem/navItem';
 
-const Header = () => {
-  const { data: session } = useSession();
+const Header = ({ panel }: { panel?: boolean }) => {
   const { asPath } = useRouter();
 
   return (
@@ -13,15 +12,11 @@ const Header = () => {
         <NavItem href="/">Strona główna</NavItem>
         <NavItem href="/kroniki">Kroniki</NavItem>
         <NavItem href="/panel">Panel</NavItem>
-        {session ? (
+        {panel ? (
           <NavItem href="/api/auth/signout" onClick={() => signOut()}>
             Wyloguj się
           </NavItem>
-        ) : (
-          <NavItem href="/api/auth/signin" onClick={() => signIn()}>
-            Zaloguj się
-          </NavItem>
-        )}
+        ) : null}
       </Nav>
     </header>
   );

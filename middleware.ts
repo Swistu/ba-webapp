@@ -1,16 +1,19 @@
-import { withAuth } from "next-auth/middleware"
+import { withAuth } from 'next-auth/middleware';
+import { NextRequest } from 'next/server';
 
 export default withAuth({
   callbacks: {
-    authorized({ req, token }) {
-      if (req.nextUrl.pathname === "/panel") {
-        return token?.userRole === "guildMember"
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    authorized({ req, token }: { req: NextRequest; token: any }) {
+      if (req.nextUrl.pathname === '/panel') {
+        console.log('middle', token);
+        return !!(token?.user?.role === 'member' && token?.user.accountActive);
       }
-      return !!token
+      return !!token;
     },
   },
-})
+});
 
 export const config = {
   matcher: '/panel/:path*',
-}
+};
