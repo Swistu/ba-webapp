@@ -16,25 +16,27 @@ interface UserData extends JWT {
   role: string;
   accountActive: boolean;
   userInGuild: boolean;
+  userInDatabase: boolean;
 }
 
 const SignIn = ({ userData }: { userData: UserData }) => {
   const errorMessage = () => {
-    if (!!!userData) return null;
+    if (!userData) return null;
     if (!userData.userInGuild)
       return (
         <p className={styles.text_error}>
-          Dołącz do nas na discorda i przejdź rekrutacje, aby uzyskać dostęp do
-          panelu.
+          Dołącz do nas na discordzie i przejdź rekrutacje, aby uzyskać dostęp
+          do panelu.
         </p>
       );
-    if (userData.role === 'guest')
+    if (!userData.userInDatabase)
       return (
         <p className={styles.text_error}>
-          Przejdź rekrutacje aby uzsykać dostęp do panelu.
+          Widzę, że jesteś u nas na discordzie ale musisz przejść pełną
+          rekrutacje aby uzyskać dostęp do panelu.
         </p>
       );
-    if (userData.role === 'member' && !userData.accountActive)
+    if (!userData.accountActive)
       return (
         <p className={styles.text_error}>
           Twoje konto nie jest aktywne, zgłoś się do Oficera na naszym

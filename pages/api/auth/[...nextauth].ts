@@ -27,7 +27,12 @@ export default NextAuth({
         );
 
         return {
-          user: { ...user, ...response.userData, userInGuild: userInGuild },
+          user: {
+            ...user,
+            ...response.userData,
+            userInGuild: userInGuild,
+            userInDatabase: response.inDatabase,
+          },
           ...token,
         };
       }
