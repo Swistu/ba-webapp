@@ -71,7 +71,7 @@ const SignIn = ({ userData }: { userData: UserData }) => {
           <div>
             <h1>Witamy ponownie!</h1>
             <p className={styles.text_info}>
-              Zaloguj sie, aby uzyskać pełny dostęp do panelu.
+              Zaloguj się, aby uzyskać pełny dostęp do panelu.
             </p>
           </div>
           {errorMessage()}
@@ -79,7 +79,7 @@ const SignIn = ({ userData }: { userData: UserData }) => {
             className={styles.discordButton}
             onClick={() => signIn('discord')}
           >
-            Zaloguj się z Disordem
+            Zaloguj się z Discordem
           </button>
         </div>
       </div>

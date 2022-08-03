@@ -1,5 +1,6 @@
 import { useSession } from 'next-auth/react';
 import { ReactNode, useEffect } from 'react';
+import Card from '../../components/card/card';
 import PanelLayout from '../../components/panelLayout/panelLayout';
 
 const Panel = () => {
@@ -10,9 +11,9 @@ const Panel = () => {
   }, [session]);
 
   return (
-    <span>
+    <Card>
       Witaj w panelu {session ? session.rank + ' ' + session.user?.name : null}
-    </span>
+    </Card>
   );
 };
 export default Panel;

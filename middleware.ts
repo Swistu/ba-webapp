@@ -6,7 +6,6 @@ export default withAuth({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     authorized({ req, token }: { req: NextRequest; token: any }) {
       if (req.nextUrl.pathname === '/panel') {
-        console.log('middle', token);
         return !!(token?.user?.role === 'member' && token?.user.accountActive);
       }
       return !!token;

@@ -4,6 +4,7 @@ import type { AppContext, AppInitialProps, AppLayoutProps } from 'next/app';
 import { NextComponentType } from 'next';
 import { ReactNode } from 'react';
 import '../styles/globals.css';
+import '../styles/panel.css';
 
 const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   Component,
