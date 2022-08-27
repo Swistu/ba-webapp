@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth from 'next-auth';
 import DiscordProvider from 'next-auth/providers/discord';
 import { MongoClient } from 'mongodb';
@@ -19,9 +20,8 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, user, account }) {
       if (account && user) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const response: any = await checkUserInDatabase(user.id);
-        const userInGuild = await checkUserInGuild(
+        const userInGuild: any = await checkUserInGuild(
           account.access_token as string,
           process.env.GUILD_ID as string
         );
@@ -38,7 +38,6 @@ export default NextAuth({
       }
       return token;
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, token }: any) {
       return {
         rank: token.user.rank,

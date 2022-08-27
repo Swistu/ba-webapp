@@ -11,14 +11,12 @@ const Header = ({ panel = false }: { panel?: boolean }) => {
       <header className="panel">
         <Nav panel={panel}>
           <NavItem href="/">Strona główna</NavItem>
-          <NavItem href="/panel">Ustawienia</NavItem>
-          <NavItem href="#">Użytkownik</NavItem>
           <NavItem href="/api/auth/signout" onClick={() => signOut()}>
             Wyloguj się
           </NavItem>
         </Nav>
         <Nav mainNav={true} panel={panel}>
-          <NavItem href="/kroniki">Historia Awansów</NavItem>
+          <NavItem href="/panel/activity-log">Activity log</NavItem>
           <NavItem href="/panel">Panel</NavItem>
         </Nav>
       </header>
@@ -28,7 +26,6 @@ const Header = ({ panel = false }: { panel?: boolean }) => {
     <header className={'page ' + (asPath === '/' ? 'transparent' : '')}>
       <Nav mainNav={true}>
         <NavItem href="/">Strona główna</NavItem>
-        <NavItem href="/kroniki">Kroniki</NavItem>
         <NavItem href="/panel">Panel</NavItem>
       </Nav>
     </header>

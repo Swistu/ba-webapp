@@ -80,6 +80,147 @@ header.panel .nav_menu a:hover {
   margin-top: 76px;
   padding: 1rem;
 }
+
+.profile_short {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile_short > div:nth-child(1) {
+  width: 50%;
+}
+.profile_short > div:nth-child(2) {
+  width: 50%;
+}
+.profile_description {
+  width: 100%;
+  float: right;
+}
+.panel_content.content_grid {
+  display: grid;
+  gap: 20px 20px;
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(50px, auto);
+}
+.canvas-ActivityLog {
+  display: none;
+}
+
+.button {
+  padding: 0.6875rem 1.125rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  line-height: 1rem;
+  appearance: none;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  font-family: Open Sans, sans-serif;
+  font-weight: 700;
+  transition-duration: 0.15s;
+  transition-property: background-color, border-color, box-shadow, color;
+  transition-timing-function: ease-in;
+  border-style: solid;
+  border-width: 0.0625rem;
+  text-transform: uppercase;
+}
+.button.button-primary {
+  background-color: #36f;
+  border-color: #36f;
+  color: #fff;
+}
+.button.button-primary:hover {
+  background-color: #598bff;
+  border-color: #598bff;
+}
+.button.button-success {
+  background-color: #00d68f;
+  border-color: #00d68f;
+  color: #fff;
+}
+.button.button-success:hover {
+  background-color: #2ce69b;
+  border-color: #2ce69b;
+}
+.button.button-info {
+  background-color: #0095ff;
+  border-color: #0095ff;
+  color: #fff;
+}
+.button.button-info:hover {
+  background-color: #42aaff;
+  border-color: #42aaff;
+}
+.button.button-warning {
+  background-color: #fa0;
+  border-color: #fa0;
+  color: #fff;
+}
+.button.button-warning:hover {
+  background-color: #ffc94d;
+  border-color: #ffc94d;
+}
+.button.button-danger {
+  background-color: #ff3d71;
+  border-color: #ff3d71;
+  color: #fff;
+}
+.button.button-danger:hover {
+  background-color: #ff708d;
+  border-color: #ff708d;
+}
+.input {
+  border-style: solid;
+  border-width: 1px;
+  font-family: Open Sans, sans-serif;
+  appearance: none;
+  transition-duration: 0.15s;
+  transition-property: border, background-color, color, box-shadow;
+  transition-timing-function: ease-in;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding: 0.4375rem 1rem;
+  background-color: #192038;
+  border-color: #101426;
+  color: #fff;
+  border-radius: 0.25rem;
+}
+.table {
+  line-height: 1.5em;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: table;
+  width: 100%;
+  max-width: 100%;
+  overflow: scroll;
+  word-break: normal;
+  word-break: keep-all;
+  margin: 16px 0;
+}
+.table-row {
+  background: #222b45;
+  color: #fff;
+  font-family: Open Sans, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+}
+
+.table td,
+.table th {
+  border: 1px solid #151a30;
+  text-align: left;
+  padding: 8px;
+}
+
+.table tr:nth-child(even) {
+  background-color: #192038;
+}
 @media screen and (min-width: 1200px) {
   header.panel .side_nav {
     left: 0;
@@ -98,5 +239,34 @@ header.panel .nav_menu a:hover {
     margin-left: 256px;
     width: calc(100% - 256px);
     padding: 2.25rem;
+  }
+  .panel_content.content_grid {
+    display: grid;
+    gap: 20px 20px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(50px, auto);
+  }
+  .panel_content.content_grid .war_number {
+    grid-column-start: 1;
+    grid-column-end: 7;
+  }
+  .panel_content.content_grid .profile_description {
+    grid-column-start: -1;
+    grid-column-end: -4;
+    grid-row: 2 / 4;
+  }
+  .panel_content.content_grid .positiveRecommendations {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row: 2 / 3;
+  }
+  .panel_content.content_grid .negativeRecommendations {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row: 3 / 4;
+  }
+  .panel_content.content_grid .promotionHistory {
+    grid-column-start: 1;
+    grid-column-end: 7;
   }
 }

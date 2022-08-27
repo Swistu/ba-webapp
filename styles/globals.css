@@ -32,6 +32,9 @@ a:hover,
 .nav_item a:hover {
   color: var(--ba-light-blue-second);
 }
+.text-center {
+  text-align: center;
+}
 header {
   height: 92px;
   background-color: #1a1a1a;
