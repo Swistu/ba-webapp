@@ -88,7 +88,7 @@ const checkUserInDatabase = async (userID: string) => {
     };
     inDatabase = true;
   } catch (e) {
-    console.log(e);
+    console.error(e);
   } finally {
     await client.close();
   }

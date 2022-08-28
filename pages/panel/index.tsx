@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getToken } from 'next-auth/jwt';
-import { useSession } from 'next-auth/react';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import Card from '../../components/card/card';
 import PanelLayout from '../../components/panelLayout/panelLayout';
 import clientPromise from '../../utility/mongodb';
@@ -23,17 +22,7 @@ type user = {
 };
 
 const Panel = ({ user }: { user: user }) => {
-  const { data: session } = useSession();
-
-  console.log(user);
-  useEffect(() => {
-    console.log('session', session);
-  }, [session]);
-
-  console.log('user', user);
-
   if (!user) return;
-  console.log('recco', user.rankData.positiveRecommendations);
 
   return (
     <>

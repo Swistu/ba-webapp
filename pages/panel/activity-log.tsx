@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 import Card from '../../components/card/card';
 import PanelLayout from '../../components/panelLayout/panelLayout';
 import Tesseract from 'tesseract.js';
@@ -16,86 +16,121 @@ const ActivityLog = () => {
   const [progressValue, setProgressValue] = useState(0);
   const [activityLogObj, setActivityLogObj] = useState({} as any);
   const [reponseStatus, setResponseStatus] = useState(0);
+  const [threadshold, setThreadshold] = useState(90);
 
-  const getImageData = () => {
-    setCheckingImageData(true);
-    let im = new Image();
-    im.onload = imageLoaded;
-    im.src = image;
+  const getImageData = useCallback(
+    (threshold = 120) => {
+      setCheckingImageData(true);
+      const im = new Image();
+      im.onload = imageLoaded;
+      im.src = image;
 
-    function imageLoaded(ev: any) {
-      const element1 = document.getElementById('canvas1') as any;
-      const element2 = document.getElementById('canvas2') as any;
-      const ctx1 = element1.getContext('2d');
-      const ctx2 = element2.getContext('2d');
+      function imageLoaded(this: any) {
+        const imageHeight = this.height;
+        const imageWidth = this.width;
 
-      im = ev.target;
+        const element1 = document.getElementById('canvas1') as any;
+        const element2 = document.getElementById('canvas2') as any;
 
-      const width = element1.width;
-      const height = element1.height;
+        element1.width = imageWidth;
+        element1.height = imageHeight;
+        element2.width = imageWidth;
+        element2.height = imageHeight;
 
-      ctx1.drawImage(im, 0, 0);
+        const ctx1 = element1.getContext('2d');
+        const ctx2 = element2.getContext('2d');
 
-      const imageData = ctx1.getImageData(0, 0, width, height);
-      const imageData2 = ctx2.createImageData(width, height);
+        const width = element1.width;
+        const height = element1.height;
 
-      let inpos = 0;
-      let outpos = 0;
-      for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-          const r = imageData.data[inpos++];
-          const g = imageData.data[inpos++];
-          const b = imageData.data[inpos++];
-          const a = imageData.data[inpos++];
-          const gray = 0.299 * r + 0.587 * g + 0.114 * b;
-          if (gray < 110) {
-            imageData2.data[outpos++] = 255;
-            imageData2.data[outpos++] = 255;
-            imageData2.data[outpos++] = 255;
-            imageData2.data[outpos++] = a;
-          } else {
-            imageData2.data[outpos++] = 0;
-            imageData2.data[outpos++] = 0;
-            imageData2.data[outpos++] = 0;
-            imageData2.data[outpos++] = a;
+        ctx1.drawImage(im, 0, 0);
+
+        const imageData = ctx1.getImageData(0, 0, width, height);
+        const imageData2 = ctx2.createImageData(width, height);
+
+        let inpos = 0;
+        let outpos = 0;
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const r = imageData.data[inpos++];
+            const g = imageData.data[inpos++];
+            const b = imageData.data[inpos++];
+            const a = imageData.data[inpos++];
+            const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+            if (gray < threshold) {
+              imageData2.data[outpos++] = 255;
+              imageData2.data[outpos++] = 255;
+              imageData2.data[outpos++] = 255;
+              imageData2.data[outpos++] = a;
+            } else {
+              imageData2.data[outpos++] = 0;
+              imageData2.data[outpos++] = 0;
+              imageData2.data[outpos++] = 0;
+              imageData2.data[outpos++] = a;
+            }
           }
         }
-      }
-      ctx2.putImageData(imageData2, 0, 0);
+        ctx2.putImageData(imageData2, 0, 0);
 
-      Tesseract.recognize(element2.toDataURL(), 'eng', {
-        logger: (m) => {
-          if (m.status === 'recognizing text')
-            setProgressValue(m.progress * 100);
-        },
-      }).then((res: any) => {
-        setImageText(res.data.text);
-        setCheckingImageData(false);
-      });
-    }
-  };
+        Tesseract.recognize(element2.toDataURL(), 'eng', {
+          logger: (m) => {
+            if (m.status === 'recognizing text')
+              setProgressValue(m.progress * 100);
+          },
+        }).then((res: any) => {
+          setImageText(res.data.text);
+          setCheckingImageData(false);
+        });
+      }
+    },
+    [image]
+  );
 
   useEffect(() => {
     (async () => {
-      if (imageText) {
+      if (imageText && !checkingImageData) {
         const orgText: string = imageText;
-        const textArray: Array<string> = orgText.split('\n');
+        const textArray: Array<string> = orgText
+          .replace('§', '5')
+          .replace(/Caplured/g, 'Captured')
+          .replace(
+            /Consiruction|Consiructon|Consrucion|Cansiructon/g,
+            'Construction'
+          )
+          .replace(/Darmages|Damge|Damega/g, 'Damage')
+          .replace(/Delvered|Deliversd/g, 'Delivered')
+          .replace(/Enerny|Enamy/g, 'Enemy')
+          .replace(/Frindly|Friandly|Frendly/g, 'Friendly')
+          .replace(/Gatharad/g, 'Gathered')
+          .replace(/Materils|Malariels/g, 'Materials')
+          .replace(/Playar/g, 'Player')
+          .replace(/Repairng|Reparing|Rapairing/g, 'Repairing')
+          .replace(/Sof|Seff|Salf/g, 'Self')
+          .replace(
+            /Sircture|Shucture|Siructure|Situcture|Siruciure|Siucture/g,
+            'Structure'
+          )
+          .replace(/Submitied|Subited|Submited/g, 'Submitted')
+          .replace(/Valus|Valua/g, 'Values')
+          .replace(/Vehicla|Vahicla/g, 'Vehicle')
+          .replace(/[^\w\n:]/gi, '')
+          .split('\n');
         const activityLogArray: Array<string> = [];
-        const regExp = /[|\s]*(.*): (.*)/;
+        const regExp = /(.*):(.*)/;
         const expectedText: Array<string> = [
-          'Enemy Player Damage',
-          'Friendly Player Damage',
-          'Enemy Structure/Vehicle Damage',
-          'Friendly Structure/Vehicle Damage',
-          'Friendly Construction',
-          'Friendly Repairing',
-          'Friendly Healing',
-          'Friendly Revivals',
-          'Vehicles Captured By Enemy',
-          'Vehicle Self Damage',
-          'Materials Submitted',
-          'Materials Gathered',
-          'Supply Value Delivered',
+          'EnemyPlayerDamage',
+          'FriendlyPlayerDamage',
+          'EnemyStructureVehicleDamage',
+          'FriendlyStructureVehicleDamage',
+          'FriendlyConstruction',
+          'FriendlyRepairing',
+          'FriendlyHealing',
+          'FriendlyRevivals',
+          'VehiclesCapturedByEnemy',
+          'VehicleSelfDamage',
+          'MaterialsSubmitted',
+          'MaterialsGathered',
+          'SupplyValueDelivered',
         ];
         const activityLogObj: any = {};
 
@@ -121,11 +156,23 @@ const ActivityLog = () => {
           }
         });
 
-        if (Object.keys(activityLogObj).length !== 13) return alert('error');
+        if (Object.keys(activityLogObj).length !== 13) {
+          if (threadshold < 170) {
+            getImageData(threadshold);
+            setThreadshold(threadshold + 5);
+            return;
+          } else {
+            return;
+          }
+        }
 
         setActivityLogObj(activityLogObj);
         const element1 = document.getElementById('canvas1') as any;
         const element3 = document.getElementById('canvas3') as any;
+
+        element3.width = element1.width;
+        element3.height = element1.height;
+
         const ctx1 = element1.getContext('2d');
         const ctx3 = element3.getContext('2d');
 
@@ -137,7 +184,7 @@ const ActivityLog = () => {
         ctx3.putImageData(imageData, 0, 0);
       }
     })();
-  }, [imageText]);
+  }, [imageText, threadshold, getImageData, checkingImageData]);
 
   const saveData = async () => {
     const apiResponse = await fetch('/api/activitylog', {
@@ -159,10 +206,10 @@ const ActivityLog = () => {
       </Card>
       <Card className="war_number">
         {reponseStatus === 200 ? (
-          <h2>Poprawnie dodano dane</h2>
+          <h2>Poprawnie zapisano activity log</h2>
         ) : reponseStatus !== 0 ? (
           <>
-            <h2>Niestety wystąpil błąd podczas próby dodania danych</h2>
+            <h2>Niestety wystąpil błąd podczas próby zapisania informacji.</h2>
             <Button onClick={reloadPage}>Spróboj ponownie</Button>
           </>
         ) : (
@@ -177,7 +224,7 @@ const ActivityLog = () => {
                     </progress>
                   </>
                 ) : (
-                  <h4>Trwa sprawdzanie zdjęcia</h4>
+                  <h4>Trwa binaryzacja zdjęcia z progiem - {threadshold}</h4>
                 )}
               </>
             ) : (
@@ -185,6 +232,7 @@ const ActivityLog = () => {
                 {imageText ? (
                   <>
                     <h3>Prównaj dane ze zdjęcia oraz w tabeli:</h3>
+
                     <div>
                       <canvas
                         className="canvas"
@@ -197,11 +245,15 @@ const ActivityLog = () => {
                       </canvas>
                       <div style={{ overflowX: 'auto' }}>
                         <table className="table">
-                          <tr className="table-row">
-                            {Object.keys(activityLogObj).map((element, key) => {
-                              return <td key={key}>{element}</td>;
-                            })}
-                          </tr>
+                          <thead>
+                            <tr className="table-row">
+                              {Object.keys(activityLogObj).map(
+                                (element, key) => {
+                                  return <td key={key}>{element}</td>;
+                                }
+                              )}
+                            </tr>
+                          </thead>
                           <tbody>
                             <tr className="table-row">
                               {Object.keys(activityLogObj).map(
@@ -216,8 +268,7 @@ const ActivityLog = () => {
                         </table>
                       </div>
                     </div>
-                    <h3>Jeżeli dane są prawdiłowe kliknij zapisz.</h3>
-                    <h3>Jeżeli dane są błędne kliknij ponów.</h3>
+
                     <Button className="button-success" onClick={saveData}>
                       Zapisz
                     </Button>
@@ -227,7 +278,13 @@ const ActivityLog = () => {
                   </>
                 ) : (
                   <>
-                    {' '}
+                    {imageText ? (
+                      <h3>
+                        Niestety nie udało się rozpoznać danych ze zdjęcia.
+                        <br />
+                        Wrzuć zdjęcie w wyższej rozdzielczości.
+                      </h3>
+                    ) : null}
                     <h3>Dodaj swój activity log</h3>
                     <Input
                       type="file"
@@ -235,7 +292,13 @@ const ActivityLog = () => {
                         setImage(URL.createObjectURL(e.target.files[0]))
                       }
                     />
-                    <Button type="button" value="Wyślij" onClick={getImageData}>
+                    <Button
+                      type="button"
+                      value="Wyślij"
+                      onClick={() => {
+                        getImageData();
+                      }}
+                    >
                       Sprawdź zdjęcie
                     </Button>
                   </>
@@ -248,16 +311,16 @@ const ActivityLog = () => {
         <canvas
           className="canvas canvas-ActivityLog"
           id="canvas1"
-          width={512}
-          height={512}
+          width={0}
+          height={0}
         >
           Canvas
         </canvas>
         <canvas
           className="canvas canvas-ActivityLog"
           id="canvas2"
-          width={512}
-          height={512}
+          width={0}
+          height={0}
         ></canvas>
       </Card>
     </>
