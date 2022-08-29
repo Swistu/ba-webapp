@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getToken } from 'next-auth/jwt';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+import ActivityLogComponent from '../../components/activitylog/activitylog';
 import Card from '../../components/card/card';
 import PanelLayout from '../../components/panelLayout/panelLayout';
 import clientPromise from '../../utility/mongodb';
@@ -20,14 +21,35 @@ type user = {
     negativeRecommendations: Array<Record<string, string>>;
   };
 };
+type warData = {
+  warNumber: number;
+};
 
 const Panel = ({ user }: { user: user }) => {
+  const [warData, setWarData] = useState<warData>();
+
+  useEffect(() => {
+    const getWarData = async () => {
+      const foxholeResponse = await fetch(
+        'https://war-service-live.foxholeservices.com/api/worldconquest/war',
+        {
+          method: 'GET',
+        }
+      );
+      setWarData((await foxholeResponse.json()) as warData);
+    };
+
+    getWarData();
+  }, []);
+
   if (!user) return;
 
   return (
     <>
       <Card className="war_number">
-        <h1 className="text-center">Wojna 94</h1>
+        <h1 className="text-center">
+          Wojna {warData ? warData.warNumber : null}
+        </h1>
       </Card>
       <Card className="profile_description">
         <div className="profile_short">
@@ -36,13 +58,9 @@ const Panel = ({ user }: { user: user }) => {
             <p>Stopień - {user.rankData.rank}</p>
             <p>Korpus - {user.rankData.corps}</p>
           </div>
-          <img
-            src="https://cdn.discordapp.com/avatars/375345238165946368/36a65eaefe92dfc0b2bd9efa34dca14f.jpeg"
-            alt=""
-          />
         </div>
-        <p>Aktualne rekomendace - {user.rankData.currentNumber}</p>
-        <p>Wszystkie rekomendacji - {user.rankData.number}</p>
+        <p>Aktualne rekomendacje - {user.rankData.currentNumber}</p>
+        <p>Liczba wszystkich rekomendacji - {user.rankData.number}</p>
         <p>Gotowy do awansu - {user.rankData.promotion ? 'Tak' : 'Nie'}</p>
       </Card>
       <Card className="positiveRecommendations">
@@ -63,7 +81,9 @@ const Panel = ({ user }: { user: user }) => {
       </Card>
       <Card className="promotionHistory">
         <h2 className="text-center">Historia awansów</h2>
+        Już niedługo :)
       </Card>
+      <ActivityLogComponent userID={user.userID} className="activityLog" />
     </>
   );
 };

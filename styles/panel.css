@@ -221,6 +221,11 @@ header.panel .nav_menu a:hover {
 .table tr:nth-child(even) {
   background-color: #192038;
 }
+
+.activityLog {
+  grid-column-start: 1;
+  grid-column-end: 7;
+}
 @media screen and (min-width: 1200px) {
   header.panel .side_nav {
     left: 0;

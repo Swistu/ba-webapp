@@ -7,8 +7,35 @@ import clientPromise from '../../utility/mongodb';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const token: any = await getToken({ req });
   if (!token) return res.status(401).send({ message: 'Unathorized' });
+  if (req.method === 'GET') {
+    try {
+      const mongoConnection = await clientPromise;
+      const result = await mongoConnection
+        .db(process.env.DB_NAME)
+        .collection('activitylog')
+        .find()
+        .toArray();
+
+      if (!result)
+        return res.status(502).send({
+          valid: false,
+          message: `Wystąpił podczas pobierania w bazie.`,
+        });
+
+      return res.status(200).send(JSON.stringify(result));
+    } catch (e) {
+      return res.status(500).send({
+        valid: false,
+        message: `Wystąpił podczas edytowania w bazie.`,
+      });
+    } finally {
+      res.end();
+    }
+  }
   if (req.method !== 'POST')
-    return res.status(405).send({ message: 'Only POST request allowed' });
+    return res
+      .status(405)
+      .send({ message: 'Only POST or GET request allowed' });
 
   const objKeys = Object.keys(req.body);
 
