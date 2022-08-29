@@ -27,11 +27,7 @@ type activityLogData = {
   VehicleSelfDamage: number;
   VehiclesCapturedByEnemy: number;
 };
-const ActivityLogComponent: React.FC<Props> = ({
-  className,
-  userID,
-  props,
-}) => {
+const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
   const [activityLogData, setActivityLogData] = useState<activityLogData[]>();
   const [userActivityLog, setUserActivityLog] = useState<any>();
   const [clanActivityLog, setClanActivityLog] = useState<any>();
@@ -127,28 +123,6 @@ const ActivityLogComponent: React.FC<Props> = ({
             );
           })
         : null}
-      <Card className={className} {...props}>
-        <h2 className="text-center">Enemy Player Damage</h2>
-        {activityLogData ? (
-          <PieChart
-            chartData={{
-              labels: ['Enemy Player Damage'],
-              datasets: [
-                {
-                  id: 1,
-                  label: 'Twoje dane',
-                  data: [5],
-                },
-                {
-                  id: 2,
-                  label: 'Średnia klanu',
-                  data: [1],
-                },
-              ],
-            }}
-          />
-        ) : null}
-      </Card>
     </>
   );
 };
