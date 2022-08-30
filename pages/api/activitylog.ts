@@ -13,7 +13,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       const result = await mongoConnection
         .db(process.env.DB_NAME)
         .collection('activitylog')
-        .find()
+        .find({ warNumber: 95 })
         .toArray();
 
       if (!result)

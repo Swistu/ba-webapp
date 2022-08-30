@@ -226,6 +226,37 @@ header.panel .nav_menu a:hover {
   grid-column-start: 1;
   grid-column-end: 7;
 }
+
+.spinner {
+  animation: spin 0.8s infinite linear;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.2em;
+  width: 2.5em;
+  height: 2.5em;
+  border-color: #36f transparent #36f #36f;
+}
+
+.spinner-success {
+  border-color: #00d68f transparent #00d68f #00d68f;
+}
+.spinner-info {
+  border-color: #0095ff transparent #0095ff #0095ff;
+}
+.spinner-warning {
+  border-color: #fa0 transparent #fa0 #fa0;
+}
+.spinner-danger {
+  border-color: #ff3d71 transparent #ff3d71 #ff3d71;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 @media screen and (min-width: 1200px) {
   header.panel .side_nav {
     left: 0;
