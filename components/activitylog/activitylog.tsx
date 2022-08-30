@@ -70,20 +70,19 @@ const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
         VehicleSelfDamage: 0,
         VehiclesCapturedByEnemy: 0,
       };
-      let userIndex = 0;
-      clanData.forEach((element: any, i: number) => {
+      clanData.forEach((element: any) => {
         Object.keys(element).forEach((key: string) => {
           obj[key] = (obj[key] + element[key]) as number;
 
           if (element[key] > bestPlayer[key]) bestPlayer[key] = element[key];
         });
 
-        if (element['userID'] === userID) userIndex = i;
+        if (element['userID'] === userID) setUserActivityLog(element);
       });
+
       setClanActivityLog(obj);
       setBestPlayerActivityLog(bestPlayer);
       setActivityLogData(clanData as activityLogData[]);
-      setUserActivityLog(clanData[userIndex]);
     };
 
     getActivityLogData();
