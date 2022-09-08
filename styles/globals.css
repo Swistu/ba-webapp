@@ -1,3 +1,5 @@
+@import '~react-image-gallery/styles/css/image-gallery.css';
+
 :root {
   --bg-dark: #000004;
   --text-light: #fbfef9;
@@ -29,7 +31,8 @@ a {
   box-sizing: border-box;
 }
 a:hover,
-.nav_item a:hover {
+.nav_item a:hover,
+.brand a:hover {
   color: var(--ba-light-blue-second);
 }
 .text-center {
@@ -113,8 +116,14 @@ nav > .hamburger > .line {
   color: var(--text-dark);
   display: block;
 }
+.marginFullScreen {
+  margin-top: 92px;
+}
 
 @media screen and (min-width: 1200px) {
+  .marginFullScreen {
+    margin-top: 72px;
+  }
   header {
     height: 72px;
   }

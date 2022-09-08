@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-type Props = {
-  className?: string;
-  type?: string;
-  value?: string | number;
-  onClick?: any;
-  onChange?: any;
-};
+
+interface Props
+  extends React.DetailedHTMLProps<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      HTMLInputElement
+    >,
+    React.AriaAttributes {}
+
 const Input: React.FC<Props> = ({ className, type, ...props }) => {
   return (
     <input

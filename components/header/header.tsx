@@ -10,7 +10,8 @@ const Header = ({ panel = false }: { panel?: boolean }) => {
     return (
       <header className="panel">
         <Nav panel={panel}>
-          <NavItem href="/">Strona główna</NavItem>
+          <NavItem href="/kroniki">Kroniki</NavItem>
+          <NavItem href="/galeria">Galeria</NavItem>
           <NavItem href="/api/auth/signout" onClick={() => signOut()}>
             Wyloguj się
           </NavItem>
@@ -25,7 +26,8 @@ const Header = ({ panel = false }: { panel?: boolean }) => {
   return (
     <header className={'page ' + (asPath === '/' ? 'transparent' : '')}>
       <Nav mainNav={true}>
-        <NavItem href="/">Strona główna</NavItem>
+        <NavItem href="/kroniki">Kroniki</NavItem>
+        <NavItem href="/galeria">Galeria</NavItem>
         <NavItem href="/panel">Panel</NavItem>
       </Nav>
     </header>
