@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import Button from '../button/button';
 import Card from '../card/card';
+import Input from '../input/input';
 import PieChart from '../piechart/piechart';
 import Spinner from '../spinner/spinner';
 
@@ -32,10 +34,14 @@ const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
   const [activityLogData, setActivityLogData] = useState<activityLogData[]>();
   const [userActivityLog, setUserActivityLog] = useState<any>();
   const [clanActivityLog, setClanActivityLog] = useState<any>();
+  const [newPlayerData, setNewPlayerData] = useState<any>([]);
+  const [chartData, setChartData] = useState<any>([]);
   const [bestPlayerActivityLog, setBestPlayerActivityLog] = useState<any>();
+  const [playerID, setPlayerID] = useState<string>();
 
   useEffect(() => {
     const getActivityLogData = async () => {
+      console.log('pobieram');
       const apiResponse = await fetch('/api/activitylog', {
         method: 'GET',
       });
@@ -88,72 +94,74 @@ const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
     getActivityLogData();
   }, [userID]);
 
+  useEffect(() => {
+    console.log(playerID);
+  }, [playerID]);
+
+  const createChartData = (data: any) => {
+    return {
+      id: data.userID,
+      label: data.userID,
+      data: [data ? data['EnemyPlayerDamage'] : 0],
+      backgroundColor: '#FFDD54',
+      color: '#ffffff',
+    };
+  };
+
+  const addNewPlayer = () => {
+    const newPlayerObj = activityLogData?.find(
+      (player) => player.userID === playerID
+    );
+
+    if (!newPlayerObj) return;
+
+    const playerChartdata = createChartData(newPlayerObj);
+    setNewPlayerData([...newPlayerData, newPlayerObj]);
+    setChartData([...chartData, playerChartdata]);
+
+    console.log('chartData', chartData);
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPlayerID(event.currentTarget.value);
+  };
+
   return (
     <>
       <Card className="activityLog">
         <h2 className="text-center">Activity log</h2>
+        <Input placeholder="ID gracza" id="playerID" onChange={handleChange} />
+        <Button onClick={addNewPlayer}>Dodaj gracza</Button>
       </Card>
-      {activityLogData ? (
-        [
-          'EnemyPlayerDamage',
-          'EnemyStructureVehicleDamage',
-          'FriendlyConstruction',
-          'FriendlyHealing',
-          'FriendlyPlayerDamage',
-          'FriendlyRepairing',
-          'FriendlyRevivals',
-          'FriendlyStructureVehicleDamage',
-          'MaterialsGathered',
-          'MaterialsSubmitted',
-          'SupplyValueDelivered',
-          'VehicleSelfDamage',
-          'VehiclesCapturedByEnemy',
-        ].map((element: any) => {
-          return (
-            <Card className="activityLog" key={element}>
-              <h2 className="text-center">{element}</h2>
-              <PieChart
-                chartData={{
-                  labels: [element],
-                  datasets: [
-                    {
-                      id: 1,
-                      label: 'Twoje dane',
-                      data: [userActivityLog ? userActivityLog[element] : 0],
-                      backgroundColor: '#00FA96',
-                      color: '#ffffff',
-                    },
-                    {
-                      id: 2,
-                      label: 'Średnia klanu',
-                      data: [
-                        clanActivityLog
-                          ? clanActivityLog[element] / activityLogData.length
-                          : 0,
-                      ],
-                      backgroundColor: '#249CFF',
-                      color: '#ffffff',
-                    },
-                    {
-                      id: 3,
-                      label: 'Najlepszy gracz',
-                      data: [
-                        bestPlayerActivityLog
-                          ? bestPlayerActivityLog[element]
-                          : 0,
-                      ],
-                      backgroundColor: '#FFDD54',
-                      color: '#ffffff',
-                    },
-                  ],
-                }}
-              />
-            </Card>
-          );
-        })
-      ) : (
-        <Spinner />
-      )}
+      {activityLogData
+        ? [
+            'EnemyPlayerDamage',
+            'EnemyStructureVehicleDamage',
+            'FriendlyConstruction',
+            'FriendlyHealing',
+            'FriendlyPlayerDamage',
+            'FriendlyRepairing',
+            'FriendlyRevivals',
+            'FriendlyStructureVehicleDamage',
+            'MaterialsGathered',
+            'MaterialsSubmitted',
+            'SupplyValueDelivered',
+            'VehicleSelfDamage',
+            'VehiclesCapturedByEnemy',
+          ].map((names: any) => {
+            return (
+              <Card className="activityLog" key={names}>
+                <h2 className="text-center">{names}</h2>
+                <PieChart
+                  chartData={{
+                    labels: [names],
+                    datasets: chartData.map((element: any) => element),
+                  }}
+                />
+              </Card>
+            );
+          })
+        : null}
     </>
   );
 };
