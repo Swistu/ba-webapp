@@ -1,6 +1,7 @@
 import { SessionProvider } from 'next-auth/react';
 import Layout from '../components/layout/layout';
 import type { AppContext, AppInitialProps, AppLayoutProps } from 'next/app';
+import { GoogleAnalytics } from 'nextjs-google-analytics';
 import { NextComponentType } from 'next';
 import { ReactNode } from 'react';
 import '../styles/globals.css';
@@ -43,8 +44,17 @@ const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
+        <meta
+          property="og:image"
+          content="https://www.blekitna-armia.pl/favicon-32x32.png"
+        />
       </Head>
-      {getLayout(<Component {...pageProps} />)}
+      {getLayout(
+        <>
+          <GoogleAnalytics trackPageViews />
+          <Component {...pageProps} />
+        </>
+      )}
     </SessionProvider>
   );
 };

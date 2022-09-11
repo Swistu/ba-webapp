@@ -16,11 +16,13 @@
     "mongodb": "^4.8.1",
     "next": "12.2.0",
     "next-auth": "^4.10.2",
+    "nextjs-google-analytics": "^2.1.0",
     "prettier": "^2.7.1",
     "react": "18.2.0",
     "react-chartjs-2": "^4.3.1",
     "react-dom": "18.2.0",
     "react-image-gallery": "^1.2.9",
+    "react-unity-webgl": "^9.0.4",
     "tesseract.js": "2.1.1"
   },
   "devDependencies": {

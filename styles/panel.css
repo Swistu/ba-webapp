@@ -72,6 +72,12 @@ header.panel .side_nav .nav_menu a {
 header.panel .nav_menu a:hover {
   color: #598bff;
 }
+.nav_item.sub-menu-title a {
+  cursor: default;
+}
+.nav_menu .sub-menu {
+  padding-left: 1.5rem;
+}
 .panel_container {
   background-color: #151a30;
   min-height: calc(100vh - 76px);

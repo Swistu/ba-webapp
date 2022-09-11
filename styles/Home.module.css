@@ -21,5 +21,5 @@
   transition: color 0.2s;
 }
 .content a:hover {
-  color: #cccccc;
+  color: var(--ba-light-blue-second);
 }
