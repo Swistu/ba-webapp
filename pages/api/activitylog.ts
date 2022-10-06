@@ -9,11 +9,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (!token) return res.status(401).send({ message: 'Unathorized' });
   if (req.method === 'GET') {
     try {
+      const foxholeResponse = await fetch(
+        'https://war-service-live.foxholeservices.com/api/worldconquest/war',
+        {
+          method: 'GET',
+        }
+      );
+      const foxholeData = await foxholeResponse.json();
+
+      if (!foxholeData)
+        return res.status(500).send({
+          valid: false,
+          message: `Wystąpił błąd, nie można pobrać nr wojny.`,
+        });
+
       const mongoConnection = await clientPromise;
       const result = await mongoConnection
         .db(process.env.DB_NAME)
         .collection('activitylog')
-        .find({ warNumber: 95 })
+        .find({ warNumber: foxholeData.warNumber })
         .toArray();
 
       if (!result)
@@ -54,7 +68,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (!foxholeData)
       return res.status(500).send({
         valid: false,
-        message: `Wystąpił błąd.`,
+        message: `Wystąpił błąd, nie można pobrać nr wojny.`,
       });
     const mongoConnection = await clientPromise;
     const result = await mongoConnection
