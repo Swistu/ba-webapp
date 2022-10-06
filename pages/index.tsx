@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <>
       <div
         style={{
-          backgroundImage: `url('https://cdn.akamai.steamstatic.com/steam/apps/505460/ss_59358512ce9daf7c68e74c3d809514c7e9b55633.1920x1080.jpg?t=1656858811')`,
+          backgroundImage: `url('https://cdn.discordapp.com/attachments/856634919751778384/1024703248722055218/FLAGA_STARA_BA_1.png')`,
           backgroundColor: '#222226',
           width: '100%',
           height: '100vh',
@@ -16,6 +16,7 @@ const Home: NextPage = () => {
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundPositionY: 'inherit',
+          backgroundSize: 'cover',
         }}
       >
         <Modal />

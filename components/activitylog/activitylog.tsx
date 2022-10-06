@@ -4,7 +4,6 @@ import Button from '../button/button';
 import Card from '../card/card';
 import Input from '../input/input';
 import PieChart from '../piechart/piechart';
-import Spinner from '../spinner/spinner';
 
 type Props = {
   children?: React.ReactNode;
@@ -30,23 +29,36 @@ type activityLogData = {
   VehicleSelfDamage: number;
   VehiclesCapturedByEnemy: number;
 };
+const activityLogNames = [
+  'EnemyPlayerDamage',
+  'EnemyStructureVehicleDamage',
+  'FriendlyConstruction',
+  'FriendlyHealing',
+  'FriendlyPlayerDamage',
+  'FriendlyRepairing',
+  'FriendlyRevivals',
+  'FriendlyStructureVehicleDamage',
+  'MaterialsGathered',
+  'MaterialsSubmitted',
+  'SupplyValueDelivered',
+  'VehicleSelfDamage',
+  'VehiclesCapturedByEnemy',
+];
+
 const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
   const [activityLogData, setActivityLogData] = useState<activityLogData[]>();
-  const [userActivityLog, setUserActivityLog] = useState<any>();
-  const [clanActivityLog, setClanActivityLog] = useState<any>();
-  const [newPlayerData, setNewPlayerData] = useState<any>([]);
   const [chartData, setChartData] = useState<any>([]);
-  const [bestPlayerActivityLog, setBestPlayerActivityLog] = useState<any>();
   const [playerID, setPlayerID] = useState<string>();
 
   useEffect(() => {
     const getActivityLogData = async () => {
-      console.log('pobieram');
       const apiResponse = await fetch('/api/activitylog', {
         method: 'GET',
       });
+      const basicActivityData: activityLogData[] = [];
+
       const clanData: activityLogData[] = await apiResponse.json();
-      const obj: any = {
+      const clanSum: any = {
         EnemyPlayerDamage: 0,
         EnemyStructureVehicleDamage: 0,
         FriendlyConstruction: 0,
@@ -76,50 +88,81 @@ const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
         VehicleSelfDamage: 0,
         VehiclesCapturedByEnemy: 0,
       };
+
       clanData.forEach((element: any) => {
         Object.keys(element).forEach((key: string) => {
-          obj[key] = (obj[key] + element[key]) as number;
+          clanSum[key] = (clanSum[key] + element[key]) as number;
 
           if (element[key] > bestPlayer[key]) bestPlayer[key] = element[key];
         });
 
-        if (element['userID'] === userID) setUserActivityLog(element);
+        if (element['userID'] === userID)
+          basicActivityData.push({
+            ...element,
+            userID: 'Twoje dane',
+            backgroundColor: '#00FA96',
+          });
       });
 
-      setClanActivityLog(obj);
-      setBestPlayerActivityLog(bestPlayer);
+      Object.keys(clanSum).forEach((key: string) => {
+        clanSum[key] = clanSum[key] / clanData.length;
+      });
+
+      basicActivityData.push({
+        ...clanSum,
+        userID: 'Średnia graczy',
+        backgroundColor: '#249CFF',
+      });
+      basicActivityData.push({
+        ...bestPlayer,
+        userID: 'Najlepszy gracz',
+        backgroundColor: '#FFDD54',
+      });
+
+      const newChartData = activityLogNames.flatMap((name) => {
+        return basicActivityData.map((element: any) => {
+          return {
+            id: element.userID,
+            label: element.userID,
+            data: [element[name]],
+            backgroundColor: element.backgroundColor
+              ? element.backgroundColor
+              : '#00FA96',
+            color: '#ffffff',
+            activityName: name,
+          };
+        });
+      });
+
+      setChartData(newChartData);
       setActivityLogData(clanData as activityLogData[]);
     };
 
     getActivityLogData();
   }, [userID]);
 
-  useEffect(() => {
-    console.log(playerID);
-  }, [playerID]);
-
-  const createChartData = (data: any) => {
-    return {
-      id: data.userID,
-      label: data.userID,
-      data: [data ? data['EnemyPlayerDamage'] : 0],
-      backgroundColor: '#FFDD54',
-      color: '#ffffff',
-    };
-  };
-
   const addNewPlayer = () => {
-    const newPlayerObj = activityLogData?.find(
+    const newPlayerObj: any = activityLogData?.find(
       (player) => player.userID === playerID
     );
 
-    if (!newPlayerObj) return;
+    if (!newPlayerObj) {
+      alert('Niestety nie znaleziono gracza z takim ID');
+      return;
+    }
 
-    const playerChartdata = createChartData(newPlayerObj);
-    setNewPlayerData([...newPlayerData, newPlayerObj]);
-    setChartData([...chartData, playerChartdata]);
+    const newPlayer = activityLogNames.map((name: string) => {
+      return {
+        id: newPlayerObj.userID,
+        label: newPlayerObj.userID,
+        data: [newPlayerObj[name]],
+        backgroundColor: '#BD5C78',
+        color: '#ffffff',
+        activityName: name,
+      };
+    });
 
-    console.log('chartData', chartData);
+    setChartData([...chartData, ...newPlayer]);
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -132,30 +175,29 @@ const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
         <h2 className="text-center">Activity log</h2>
         <Input placeholder="ID gracza" id="playerID" onChange={handleChange} />
         <Button onClick={addNewPlayer}>Dodaj gracza</Button>
+        <br />
+        <br />
+        <a
+          href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-"
+          target="_blank"
+          style={{ fontSize: '1.2rem' }}
+          rel="noreferrer"
+        >
+          Kliknij, a się dowiesz jak znaleźć ID gracza
+        </a>
       </Card>
-      {activityLogData
-        ? [
-            'EnemyPlayerDamage',
-            'EnemyStructureVehicleDamage',
-            'FriendlyConstruction',
-            'FriendlyHealing',
-            'FriendlyPlayerDamage',
-            'FriendlyRepairing',
-            'FriendlyRevivals',
-            'FriendlyStructureVehicleDamage',
-            'MaterialsGathered',
-            'MaterialsSubmitted',
-            'SupplyValueDelivered',
-            'VehicleSelfDamage',
-            'VehiclesCapturedByEnemy',
-          ].map((names: any) => {
+      {chartData
+        ? activityLogNames.map((name: any) => {
             return (
-              <Card className="activityLog" key={names}>
-                <h2 className="text-center">{names}</h2>
+              <Card className="activityLog" key={name}>
+                <h2 className="text-center">{name}</h2>
+
                 <PieChart
                   chartData={{
-                    labels: [names],
-                    datasets: chartData.map((element: any) => element),
+                    labels: [name],
+                    datasets: chartData.filter(
+                      (element: any) => element.activityName == name
+                    ),
                   }}
                 />
               </Card>
