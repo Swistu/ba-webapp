@@ -3,10 +3,11 @@ import Layout from '../components/layout/layout';
 import type { AppContext, AppInitialProps, AppLayoutProps } from 'next/app';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
 import { NextComponentType } from 'next';
-import { ReactNode } from 'react';
+import {ReactNode, useEffect} from 'react';
 import '../styles/globals.css';
 import '../styles/panel.css';
 import Head from 'next/head';
+import {initAccordions, initCarousels, initDials, initDrawers, initPopovers} from "flowbite";
 
 const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
   Component,
@@ -14,9 +15,17 @@ const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
 }: AppLayoutProps) => {
   const getLayout =
     Component.getLayout || ((page: ReactNode) => <Layout>{page}</Layout>);
-
+  useEffect(() => {
+    initDrawers();
+    initAccordions();
+    initCarousels();
+    initDials();
+    initPopovers();
+  });
   return (
+
     <SessionProvider session={session}>
+
       <Head>
         <title>Błękitna Armia - Największy polski klan Foxhole</title>
         <meta
@@ -49,6 +58,7 @@ const MyApp: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
           content="https://www.blekitna-armia.pl/favicon-32x32.png"
         />
       </Head>
+
       {getLayout(
         <>
           <GoogleAnalytics trackPageViews />

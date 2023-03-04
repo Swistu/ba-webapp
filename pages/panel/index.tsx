@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getToken } from 'next-auth/jwt';
-import { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import ActivityLogComponent from '../../components/activitylog/activitylog';
-import Card from '../../components/card/card';
 import PanelLayout from '../../components/panelLayout/panelLayout';
 import clientPromise from '../../utility/mongodb';
+import {Card} from "flowbite-react";
+import Input from "../../components/input/input";
+import Button from "../../components/button/button";
 
 type user = {
   userID: string;
@@ -46,12 +48,12 @@ const Panel = ({ user }: { user: user }) => {
 
   return (
     <>
-      <Card className="war_number">
-        <h1 className="text-center">
+      <Card className="xs:col-span-1 lg:col-span-6 xl:col-span-12">
+        <h1 className="text-center text-2xl">
           Wojna {warData ? warData.warNumber : null}
         </h1>
       </Card>
-      <Card className="profile_description">
+      <Card className="xs:col-span-1 lg:col-span-2 xl:col-span-3 row-span-3">
         <div className="profile_short">
           <div>
             <p>Gracz - {user.discordTag}</p>
@@ -63,7 +65,7 @@ const Panel = ({ user }: { user: user }) => {
         <p>Liczba wszystkich rekomendacji - {user.rankData.number}</p>
         <p>Gotowy do awansu - {user.rankData.promotion ? 'Tak' : 'Nie'}</p>
       </Card>
-      <Card className="positiveRecommendations">
+      <Card className="xs:col-span-1 lg:col-span-4 xl:col-span-9">
         <h2>Dodatnie rekomendacje</h2>
         <ol>
           {user.rankData.positiveRecommendations.map((element, i) => {
@@ -71,7 +73,7 @@ const Panel = ({ user }: { user: user }) => {
           })}
         </ol>
       </Card>
-      <Card className="negativeRecommendations">
+      <Card className="xs:col-span-1 lg:col-span-4 xl:col-span-9">
         <h2>Ujemne rekomendacje</h2>
         <ol>
           {user.rankData.negativeRecommendations.map((element, i) => {
@@ -79,11 +81,13 @@ const Panel = ({ user }: { user: user }) => {
           })}
         </ol>
       </Card>
-      <Card className="promotionHistory">
+
+      <Card className="xs:col-span-1 lg:col-span-4 xl:col-span-9">
         <h2 className="text-center">Historia awansów</h2>
         Już niedługo :)
       </Card>
-      <ActivityLogComponent userID={user.userID} className="activityLog" />
+
+      <ActivityLogComponent userID={user.userID} />
     </>
   );
 };

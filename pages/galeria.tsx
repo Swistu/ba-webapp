@@ -2,48 +2,22 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 
 import ImageGallery from 'react-image-gallery';
+import {useEffect, useState} from "react";
+import directusApi from "../libs/api";
 
 const Galeria: NextPage = () => {
-  const images = [
-    {
-      original:
-        'https://cdn.discordapp.com/attachments/815381830030065704/967492546311901264/unknown.png',
-      description:
-        'Wesoła kompania przed wyjazdem do lasu na zbieranie głów goblinów',
-    },
-    {
-      original:
-        'https://cdn.discordapp.com/attachments/815381830030065704/959151714546622464/20220326182240_1.jpg',
-      description:
-        'Jednostka opancerzona przed odparciem ataku na miasto przez kolonialne czołgi wroga',
-    },
-    {
-      original:
-        'https://cdn.discordapp.com/attachments/815381830030065704/1004087701722648740/bog_wojny.png',
-      description: 'Ofiara Błękitnej Armii dla wielkiego Boga wojny',
-    },
-    {
-      original:
-        'https://cdn.discordapp.com/attachments/815381830030065704/952622428876578906/20220313182536_1.jpg',
-      description: 'Zespół wsparcia piechoty gotowy na kolejną akcje',
-    },
-    {
-      original:
-        'https://cdn.discordapp.com/attachments/815381830030065704/1017487108971184208/20220826005405_1.jpg',
-      description: 'Zołnierze Błekitnej Armii po udanym ostrzale artyleryjskim',
-    },
-    {
-      original:
-        'https://cdn.discordapp.com/attachments/815381830030065704/986310476877164564/unknown.png',
-      description: 'Załoga marynarki gotowa do ataku na wrogich wodach',
-    },
-    {
-      original:
-        'https://cdn.discordapp.com/attachments/850846130903711764/1017533005776048178/505460_screenshots_20220813160251_1.jpg',
-      description:
-        'Strażnik tyłowy rozgrzewający zmarznięte dłonie po ciężkiej warcie w nocy',
-    },
-  ];
+    const [dogImage, setDogImage] = useState(null)
+    useEffect(() => {
+        directusApi.get('galleries?populate=*').then((res) => {
+            // console.log(res.data[0].attributes.image.data.attributes.url)
+            setDogImage(res.data.map((o) => {
+                return {
+                    original: "http://localhost:1337"+o.attributes.image.data.attributes.url,
+                    description: o.attributes.title
+                }
+            }))
+        });
+    },[])
   return (
     <>
       <Head>
@@ -58,7 +32,9 @@ const Galeria: NextPage = () => {
         }}
         className="marginFullScreen"
       >
-        <ImageGallery items={images} />
+          balls
+        {/*<ImageGallery items={dogImage} />*/}
+          {dogImage &&<ImageGallery items={dogImage} />}
       </div>
     </>
   );

@@ -1,3 +1,7 @@
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 header.panel {
   background-color: #222b45;
   color: #ffffff;
@@ -85,6 +89,10 @@ header.panel .nav_menu a:hover {
   height: 100%;
   margin-top: 76px;
   padding: 1rem;
+
+  margin-left: 256px;
+  width: calc(100% - 256px);
+  padding: 2.25rem;
 }
 
 .profile_short {
@@ -276,11 +284,6 @@ header.panel .nav_menu a:hover {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-  }
-  .panel_container {
-    margin-left: 256px;
-    width: calc(100% - 256px);
-    padding: 2.25rem;
   }
   .panel_content.content_grid {
     display: grid;

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import Button from '../button/button';
-import Card from '../card/card';
 import Input from '../input/input';
 import PieChart from '../piechart/piechart';
+import {Card} from "flowbite-react";
 
 type Props = {
   children?: React.ReactNode;
@@ -171,17 +171,15 @@ const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
 
   return (
     <>
-      <Card className="activityLog">
+      <Card className="xs:col-span-1 lg:col-span-6 xl:col-span-12">
         <h2 className="text-center">Activity log</h2>
         <Input placeholder="ID gracza" id="playerID" onChange={handleChange} />
         <Button onClick={addNewPlayer}>Dodaj gracza</Button>
-        <br />
-        <br />
         <a
-          href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-"
-          target="_blank"
-          style={{ fontSize: '1.2rem' }}
-          rel="noreferrer"
+            href="https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-"
+            target="_blank"
+            style={{ fontSize: '1.2rem' }}
+            rel="noreferrer"
         >
           Kliknij, a się dowiesz jak znaleźć ID gracza
         </a>
@@ -189,7 +187,7 @@ const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
       {chartData
         ? activityLogNames.map((name: any) => {
             return (
-              <Card className="activityLog" key={name}>
+              <Card className="xs:col-span-1 lg:col-span-3 xl:col-span-4" key={name}>
                 <h2 className="text-center">{name}</h2>
 
                 <PieChart
