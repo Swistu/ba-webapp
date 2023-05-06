@@ -46,12 +46,12 @@ const Panel = ({user}: { user: user }) => {
 
     return (
         <>
-            <Card className="col-span-1 sm:col-span-1 md:col-span-4 xl:col-span-12 bg-secondary">
+            <Card className="col-span-1 sm:col-span-1 md:col-span-4 xl:col-span-12 ">
                 <h1 className="text-center">
                     Wojna {warData ? warData.warNumber : null}
                 </h1>
             </Card>
-            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 bg-secondary">
+            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 ">
                 <div className="profile_short">
                     <div>
                         <p>Gracz - {user.discordTag}</p>
@@ -63,7 +63,7 @@ const Panel = ({user}: { user: user }) => {
                 <p>Liczba wszystkich rekomendacji - {user.rankData.number}</p>
                 <p>Gotowy do awansu - {user.rankData.promotion ? 'Tak' : 'Nie'}</p>
             </Card>
-            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 bg-secondary">
+            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 ">
                 <h2>Dodatnie rekomendacje</h2>
                 <ol>
                     {user.rankData.positiveRecommendations.map((element, i) => {
@@ -71,7 +71,7 @@ const Panel = ({user}: { user: user }) => {
                     })}
                 </ol>
             </Card>
-            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 bg-secondary">
+            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3">
                 <h2>Ujemne rekomendacje</h2>
                 <ol>
                     {user.rankData.negativeRecommendations.map((element, i) => {
@@ -79,7 +79,7 @@ const Panel = ({user}: { user: user }) => {
                     })}
                 </ol>
             </Card>
-            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 bg-secondary">
+            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 ">
                 <h2 className="text-center">Historia awansów</h2>
                 Już niedługo :)
             </Card>

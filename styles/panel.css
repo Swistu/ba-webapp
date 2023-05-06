@@ -1,5 +1,4 @@
 header.panel {
-    background-color: #222b45;
     color: #ffffff;
     font-family: Open Sans, sans-serif;
     font-size: 0.9375rem;
@@ -54,7 +53,6 @@ header.panel .side_nav .nav_menu {
 }
 
 header.panel .side_nav .nav_menu li {
-    border-bottom: 1px solid #151a30;
     width: 100%;
 }
 
@@ -64,7 +62,6 @@ header.panel .side_nav .nav_menu li:last-child {
 
 header.panel .side_nav .nav_menu a {
     font-family: Open Sans, sans-serif;
-    font-size: 0.85rem;
     font-weight: 600;
     line-height: 1.5rem;
     color: #ffffff;

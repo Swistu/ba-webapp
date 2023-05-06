@@ -171,7 +171,7 @@ const ActivityLogComponent: React.FC<Props> = ({userID}) => {
 
     return (
         <>
-            <Card className={'col-span-1 sm:col-span-1 md:col-span-4 xl:col-span-12 bg-secondary'}>
+            <Card className={'col-span-1 sm:col-span-1 md:col-span-4 xl:col-span-12'}>
                 <h2 className="text-center">Activity log</h2>
                 <Input placeholder="ID gracza" id="playerID" onChange={handleChange}/>
                 <Button onClick={addNewPlayer}>Dodaj gracza</Button>
@@ -189,7 +189,7 @@ const ActivityLogComponent: React.FC<Props> = ({userID}) => {
             {chartData
                 ? activityLogNames.map((name: any) => {
                     return (
-                        <Card className={'col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-6 bg-secondary'}
+                        <Card className={'col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-6'}
                               key={name}>
                             <h2 className="text-center">{name}</h2>
 
