@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import styles from './card.module.css';
 
 type Props = {
     children: React.ReactNode;
@@ -10,7 +9,8 @@ type Props = {
 const Card: React.FC<Props> = ({children, className, props}) => {
     return (
         <div
-            className={'bg-tertiary ' + styles.content + ' ' + (className ? className : '')}
+            className={'bg-forth rounded-lg shadow-panel ' + (className ? className : '')}
+            style={{opacity: 0.9}}
             {...props}
         >
             {children}

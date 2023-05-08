@@ -21,25 +21,25 @@ const UserDropdown: React.FC<Props> = () => {
         <div
             className={`${dropdownOpen ? `top-full opacity-100 visible` : 'top-[110%] invisible opacity-0'} absolute right-[.5rem] z-40 mt-2 w-[250px] rounded border-[.5px] border-light bg-primary py-5 shadow-card transition-all bg-secondary`}>
             <a
-                href="javascript:void(0)"
+                href=""
                 className="block py-2 px-5 text-base font-semibold text-body-color hover:bg-primary hover:bg-opacity-5 hover:text-gb-to-to"
             >
                 Dashboard
             </a>
             <a
-                href="javascript:void(0)"
+                href=""
                 className="block py-2 px-5 text-base font-semibold text-body-color hover:bg-primary hover:bg-opacity-5 hover:text-gb-to-to"
             >
                 Settings
             </a>
             <a
-                href="javascript:void(0)"
+                href=""
                 className="block py-2 px-5 text-base font-semibold text-body-color hover:bg-primary hover:bg-opacity-5 hover:text-gb-to-to"
             >
                 Earnings
             </a>
             <a
-                href="javascript:void(0)"
+                href=""
                 className="block py-2 px-5 text-base font-semibold text-body-color hover:bg-primary hover:bg-opacity-5 hover:text-gb-to-to"
             >
                 Logout

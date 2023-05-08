@@ -1,16 +1,5 @@
 .content {
-    border: 0.0625rem solid #101426;
-    border-radius: 0.25rem;
-    color: #fff;
-    font-family: Open Sans, sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 400;
-    line-height: 1.25rem;
-    padding: 0.625rem;
-    overflow: hidden;
-    animation-name: shadow-pulse;
-    animation-duration: 4s;
-    transition: box-shadow 400ms ease-out 1ms
+
 }
 
 .content:hover {
