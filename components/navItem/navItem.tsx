@@ -1,37 +1,29 @@
-import Link from 'next/link';
+import {HTMLAttributeAnchorTarget} from "react";
 
 type NavItemProps = {
-  children: React.ReactNode;
-  href: string;
-  className?: string;
-  target?: boolean;
-  onClick?: React.MouseEventHandler;
+    children: React.ReactNode;
+    href: string;
+    className?: string;
+    target?: HTMLAttributeAnchorTarget;
+    onClick?: React.MouseEventHandler;
 };
 
 const NavItem: React.FC<NavItemProps> = ({
-  children,
-  href,
-  onClick,
-  className,
-  target,
-}) => {
-  if (target) {
+                                             children,
+                                             href,
+                                             onClick,
+                                             className,
+                                             target,
+                                         }) => {
     return (
-      <li className="nav_item">
-        <a href={href} target="_blank" rel="noreferrer">
-          {children}
-        </a>
-      </li>
+        <li className="w-full">
+            <a href={href} target={target} rel="noreferrer" onClick={onClick}
+               className={'w-full h-full pt-[1.5rem] pr-[2rem] text-[1.3em] block bg-[rgba(3,3,3,0.3)] mt-[0.3rem] rounded-lg hover:ml-[15px] hover:bg-[rgba(3,3,3,0.6)] hover:transition-all ' + className}>
+                {children}
+            </a>
+        </li>
     );
-  }
-  console.log(className);
-  return (
-    <li className={'nav_item ' + (className ? className : '')}>
-      <Link href={href} {...onClick}>
-        {children}
-      </Link>
-    </li>
-  );
+
 };
 
 export default NavItem;
