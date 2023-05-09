@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {getToken} from 'next-auth/jwt';
-import {ReactNode, useEffect, useState} from 'react';
+import {ReactNode, useEffect} from 'react';
 import Card from '../../components/card/card';
 import PanelLayout from '../../components/panelLayout/panelLayout';
 import clientPromise from '../../utility/mongodb';
+import {useDispatch, useSelector} from "react-redux";
+import {fetchWarData} from "../../store/storeWarData";
 
 type user = {
     userID: string;
@@ -20,25 +22,12 @@ type user = {
         negativeRecommendations: Array<Record<string, string>>;
     };
 };
-type warData = {
-    warNumber: number;
-};
 
 const Panel = ({user}: { user: user }) => {
-    const [warData, setWarData] = useState<warData>();
-
+    const dispatch = useDispatch();
+    const war = useSelector((state: any) => state.warData);
     useEffect(() => {
-        const getWarData = async () => {
-            const foxholeResponse = await fetch(
-                'https://war-service-live.foxholeservices.com/api/worldconquest/war',
-                {
-                    method: 'GET',
-                }
-            );
-            setWarData((await foxholeResponse.json()) as warData);
-        };
-
-        getWarData();
+        dispatch(fetchWarData());
     }, []);
 
     if (!user) return;
@@ -48,13 +37,13 @@ const Panel = ({user}: { user: user }) => {
             <Card
                 className="col-span-1 sm:col-span-1 md:col-span-4 xl:col-span-12 row-span-1 align-middle flex items-center justify-center">
                 <p className="text-4xl align-middle">
-                    Wojna {warData ? warData.warNumber : null}
+                    Wojna {war.warData.warNumber && !war.loading ? war.warData.warNumber : '...'}
                 </p>
             </Card>
             <Card
-                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-4 text-md">
-                <div className={'w-full h-full p-[1rem] flex flex-wrap break-words justify-between gap-[2rem]'}>
-                    <div className={'grow-[5] basis-full flex max-h-5 items-center justify-center text-2xl'}>
+                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-3 text-md">
+                <div className={'w-full h-full p-[1rem] flex flex-wrap break-words justify-between gap-[1rem]'}>
+                    <div className={'basis-full flex max-h-5 items-center justify-center text-2xl'}>
                         Podgląd klanowicza
                     </div>
                     <div
@@ -73,14 +62,11 @@ const Panel = ({user}: { user: user }) => {
                         className={'shadow-panel rounded-full bg-[rgba(26,26,46,0.6)] w-[9rem] h-[9rem] flex items-center justify-center'}>
                         <p>Gotowy do awansu - {user.rankData.promotion ? 'Tak' : 'Nie'}</p>
                     </div>
-                    {/*<p>Aktualne rekomendacje - {user.rankData.currentNumber}</p>*/}
-                    {/*<p>Liczba wszystkich rekomendacji - {user.rankData.number}</p>*/}
-                    {/*<p>Gotowy do awansu - {user.rankData.promotion ? 'Tak' : 'Nie'}</p>*/}
                 </div>
 
             </Card>
             <Card
-                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-4">
+                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-3">
                 <div className={'w-full h-full p-[1rem] flex break-words flex-col gap-[2rem]'}>
                     <div className={'flex items-center max-h-5 justify-center text-2xl'}>
                         Dodatnie rekomendacje
@@ -91,22 +77,9 @@ const Panel = ({user}: { user: user }) => {
                             {element.reason}
                         </div>;
                     })}
-                    <div
-                        className={'shadow-panel rounded-full bg-[rgba(26,26,46,0.6)] w-full h-full max-h-5 p-5 flex items-center justify-center'}>
-                        asd
-                    </div>
-                    <div
-                        className={'shadow-panel rounded-full bg-[rgba(26,26,46,0.6)] w-full h-full max-h-5 p-5 flex items-center justify-center'}>
-                        asd
-                    </div>
-                    <div
-                        className={'shadow-panel rounded-full bg-[rgba(26,26,46,0.6)] w-full h-full max-h-5 p-5 flex items-center justify-center'}>
-                        asd
-                    </div>
                 </div>
             </Card>
-            <Card
-                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-4">
+            <Card className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-3">
 
                 <div className={'w-full h-full p-[1rem] flex break-words flex-col gap-[2rem]'}>
                     <div className={'flex items-center max-h-5 justify-center text-2xl'}>
@@ -120,15 +93,30 @@ const Panel = ({user}: { user: user }) => {
                     })}
                 </div>
             </Card>
+
             <Card
-                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-2">
-                <h2 className="text-center">Medale</h2>
-                Już niedługo :)
+                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-3">
+                <div className={'w-full h-full p-[1rem] flex break-words flex-col gap-[2rem]'}>
+                    <div className={'flex items-center max-h-5 justify-center text-2xl'}>
+                        Historia awansów
+                    </div>
+                    <div
+                        className={'shadow-panel rounded-full bg-[rgba(26,26,46,0.6)] w-full h-full max-h-5 p-5 flex items-center justify-center'}>
+                        Już niedługo
+                    </div>
+                </div>
             </Card>
             <Card
-                className="col-span-1 sm:col-span-1 md:col-span-2 xl:col-span-3 row-span-2">
-                <h2 className="text-center">Historia awansów</h2>
-                Już niedługo :)
+                className="col-span-1 sm:col-span-1 md:col-span-4 xl:col-span-12 row-span-1 align-middle flex items-center justify-center">
+                <div className={'w-full h-full p-[1rem] flex break-words flex-col gap-[2rem]'}>
+                    <div className={'flex items-center max-h-5 justify-center text-2xl'}>
+                        Medale
+                    </div>
+                    <div
+                        className={'shadow-panel rounded-full bg-[rgba(26,26,46,0.6)] w-full h-full max-h-5 p-5 flex items-center justify-center'}>
+                        Już niedługo
+                    </div>
+                </div>
             </Card>
             {/*<ActivityLogComponent userID={user.userID} className="activityLog"/>*/}
         </>
