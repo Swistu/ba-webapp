@@ -53,7 +53,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   const objKeys = Object.keys(req.body);
 
-  if (objKeys.length !== 13)
+  if (objKeys.length !== 15)
     return res.status(400).send({ message: 'Bad body data' });
 
   try {

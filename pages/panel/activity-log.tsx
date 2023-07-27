@@ -127,7 +127,9 @@ const ActivityLog = () => {
           'FriendlyHealing',
           'FriendlyRevivals',
           'VehiclesCapturedByEnemy',
-          'VehicleSelfDamage',
+          'VehicleSelfDamageNeutral',
+          'VehicleSelfDamageColonial',
+          'VehicleSelfDamageWarden',
           'MaterialsSubmitted',
           'MaterialsGathered',
           'SupplyValueDelivered',
@@ -156,7 +158,7 @@ const ActivityLog = () => {
           }
         });
 
-        if (Object.keys(activityLogObj).length !== 13) {
+        if (Object.keys(activityLogObj).length !== 15) {
           if (threadshold < 170) {
             getImageData(threadshold);
             setThreadshold(threadshold + 5);
