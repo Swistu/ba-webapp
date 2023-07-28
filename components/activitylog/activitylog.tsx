@@ -26,23 +26,27 @@ type activityLogData = {
   MaterialsGathered: number;
   MaterialsSubmitted: number;
   SupplyValueDelivered: number;
-  VehicleSelfDamage: number;
+  VehicleSelfDamageNeutral: number;
+  VehicleSelfDamageColonial: number;
+  VehicleSelfDamageWarden: number;
   VehiclesCapturedByEnemy: number;
 };
 const activityLogNames = [
   'EnemyPlayerDamage',
-  'EnemyStructureVehicleDamage',
-  'FriendlyConstruction',
-  'FriendlyHealing',
   'FriendlyPlayerDamage',
-  'FriendlyRepairing',
-  'FriendlyRevivals',
+  'EnemyStructureVehicleDamage',
   'FriendlyStructureVehicleDamage',
-  'MaterialsGathered',
-  'MaterialsSubmitted',
-  'SupplyValueDelivered',
-  'VehicleSelfDamage',
+  'FriendlyConstruction',
+  'FriendlyRepairing',
+  'FriendlyHealing',
+  'FriendlyRevivals',
   'VehiclesCapturedByEnemy',
+  'VehicleSelfDamageNeutral',
+  'VehicleSelfDamageColonial',
+  'VehicleSelfDamageWarden',
+  'MaterialsSubmitted',
+  'MaterialsGathered',
+  'SupplyValueDelivered',
 ];
 
 const ActivityLogComponent: React.FC<Props> = ({ userID }) => {
