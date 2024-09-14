@@ -24,7 +24,6 @@ const NavItem: React.FC<NavItemProps> = ({
       </li>
     );
   }
-  console.log(className);
   return (
     <li className={'nav_item ' + (className ? className : '')}>
       <Link href={href} {...onClick}>

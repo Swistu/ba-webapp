@@ -8,7 +8,7 @@ const Home: NextPage = () => {
     <>
       <div
         style={{
-          backgroundImage: `url('https://cdn.discordapp.com/attachments/850846130903711764/1134581756226445422/LWY.png')`,
+          backgroundImage: `url('/static/BA_BG.png')`,
           backgroundColor: '#222226',
           width: '100%',
           height: '100vh',
