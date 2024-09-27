@@ -1,6 +1,6 @@
 import React, {ReactNode} from 'react';
 import routes from './routes.json';
-import Route from "./route";
+import Route from "../../../types/route";
 import NavItem from "../../navItem/navItem";
 
 type Props = {

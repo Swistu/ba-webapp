@@ -6,24 +6,9 @@ import PanelLayout from '../../components/panelLayout/panelLayout';
 import clientPromise from '../../utility/mongodb';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchWarData} from "../../store/storeWarData";
+import {User} from "../../types/user";
 
-type user = {
-    userID: string;
-    discordTag: string;
-    accountActive: boolean;
-    role: string;
-    rankData: {
-        rank: string;
-        corps: string;
-        number: number;
-        promotion: boolean;
-        currentNumber: number;
-        positiveRecommendations: Array<Record<string, string>>;
-        negativeRecommendations: Array<Record<string, string>>;
-    };
-};
-
-const Panel = ({user}: { user: user }) => {
+const Panel = ({user}: { user: User }) => {
     const dispatch = useDispatch();
     const war = useSelector((state: any) => state.warData);
     useEffect(() => {
