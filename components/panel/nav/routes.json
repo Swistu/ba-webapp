@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Strona główna",
+    "route": "/panel",
+    "slug": "home"
+  },
+  {
+    "name": "Przydatne narzędzia",
+    "route": "/panel/tools",
+    "slug": "tools"
+  },
+  {
+    "name": "Kroniki",
+    "route": "/kroniki",
+    "slug": "chronicles"
+  },
+  {
+    "name": "Dziennik aktywności",
+    "route": "/panel/activity-log",
+    "slug": "activitylog"
+  }
+]
