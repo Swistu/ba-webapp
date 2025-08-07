@@ -27,7 +27,9 @@ export default function Home() {
       <form
         action={async () => {
           "use server";
-          await signIn();
+          await signIn("discord", {
+            redirectTo: "/panel",
+          });
         }}
       >
         <button type="submit">Signin with Discord</button>

@@ -1,12 +1,13 @@
 import { auth } from "@/auth";
 
 export default auth((req) => {
-  console.log("Middleware running for:", req.nextUrl.pathname);
+  const reqUrl = req.nextUrl;
   if (!req.auth) {
-    return Response.redirect("/auth/signin");
+    console.log("Unauthorized access attempt to:", reqUrl.pathname);
+    return Response.redirect(new URL("api/auth/signin", reqUrl));
   }
 });
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)", "/panel"],
+  matcher: ["/panel/:path*"],
 };
