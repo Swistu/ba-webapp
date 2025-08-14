@@ -3,7 +3,7 @@ import "../../../styles/globals.css";
 import { isDirectusError, readItems } from "@directus/sdk";
 import directus from "@/lib/directus";
 import Link from "next/link";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, signOut } from "next-auth/react";
 import { auth } from "@/auth";
 
 export type menuItem = {
@@ -22,9 +22,9 @@ export default async function PanelPageLayout({
   async function getDirectusData() {
     try {
       const data = await directus.request(
-        readItems("panel_menu", {
+        readItems("menu_panel", {
           filter: { status: { _eq: "published" } },
-          fields: ["id", "order", "title", "slug", "status", "parent", "sort"],
+          fields: ["id", "title", "slug", "status", "parent", "sort"],
         })
       );
       const menuItems: menuItem[] = [];
@@ -60,28 +60,47 @@ export default async function PanelPageLayout({
 
   const session = await auth();
 
+  if (!session || !session.user.databaseUser) {
+    return (
+      <html>
+        <body>
+          <div className="flex h-screen items-center justify-center">
+            <p className="text-lg">You are not authenticated</p>
+            <Link href="/">Go to Home</Link>
+          </div>
+        </body>
+      </html>
+    );
+  }
+
   return (
     <html>
       <body>
         <div className="flex h-screen">
           <SessionProvider session={session}>
             <aside className="w-64 bg-gray-800 text-white overflow-y-auto">
+              <div className="p-4">
+                <p className="text-xl font-bold">
+                  {session?.user.databaseUser.nickname}
+                </p>
+                <p className="text-sm">
+                  {session?.user.databaseUser.user_rank.rank.name}
+                </p>
+              </div>
               <nav className="p-4">
                 <ul className="flex flex-col space-y-2">
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                  <li>test</li>
-                  <Link href="/panel">panel</Link>
-                  <Link href="/">Strona główna</Link>
+                  {navItems.map((item) => (
+                    <li key={item.id}>
+                      <Link href={`/panel/${item.slug}`}>{item.title}</Link>
+                    </li>
+                  ))}
+                  <li>
+                    <button>Sign Out</button>
+                  </li>
                 </ul>
               </nav>
             </aside>
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1 flex flex-col w-64">
               <header>bredcrumbs</header>
               <main className="flex-1 p-6 bg-gray-100 overflow-y-auto">
                 {children}

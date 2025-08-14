@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
-    async jwt({ token, user, profile, account, session }) {
+    async jwt({ token, user, profile }) {
       if (user && profile) {
         try {
           const response = await fetch(

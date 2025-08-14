@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DefaultSession } from "next-auth";
 
 // This module augmentation extends the User, Session, and JWT types

@@ -1,9 +1,9 @@
-import { createDirectus, rest, RestClient, withToken } from "@directus/sdk";
+import { createDirectus, rest } from "@directus/sdk";
 type Collections = {
-  panel_menu: PanelMenu[];
+  menu_panel: MenuPanel[];
 };
 
-type PanelMenu = {
+type MenuPanel = {
   id: number;
   title: string;
   slug: string;
