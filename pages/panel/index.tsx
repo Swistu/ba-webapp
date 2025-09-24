@@ -81,7 +81,7 @@ const Panel = ({ user }: { user: user }) => {
       </Card>
       <Card className="promotionHistory">
         <h2 className="text-center">Historia awansów</h2>
-        Już niedługo :)
+        Prawie gotowe :)
       </Card>
       <ActivityLogComponent userID={user.userID} className="activityLog" />
     </>
